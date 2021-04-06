@@ -1,4 +1,5 @@
 package com.bridgelabz.dbdemo;
+
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
@@ -17,10 +18,10 @@ public class DBDemo {
             throw new IllegalStateException("Can not find drive in the classpath!", e);
         }
         listDrivers();
-        try{
-            System.out.println("Connecting to database:" +jdbcURL);
+        try {
+            System.out.println("Connecting to database:" + jdbcURL);
             connection = DriverManager.getConnection(jdbcURL, userName, password);
-            System.out.println("Connection is successful!!!!"+connection);
+            System.out.println("Connection is successful!!!!" + connection);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -28,9 +29,9 @@ public class DBDemo {
 
     private static void listDrivers() {
         Enumeration<Driver> driverList = DriverManager.getDrivers();
-        while (driverList.hasMoreElements()){
+        while (driverList.hasMoreElements()) {
             Driver driverClass = (Driver) driverList.nextElement();
-            System.out.println(" "+driverClass.getClass().getName());
+            System.out.println(" " + driverClass.getClass().getName());
         }
     }
 }
