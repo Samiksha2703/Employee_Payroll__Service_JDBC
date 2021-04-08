@@ -52,7 +52,7 @@ public class EmployeePayrollDBService {
         return employeePayrollDataList;
     }
 
-    int updateEmployeeData(String name, Double salary) {
+    public int updateEmployeeData(String name, Double salary) {
         return this.updateEmployeeDataUsingStatement(name, salary);
     }
 
