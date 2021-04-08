@@ -9,6 +9,7 @@ public class EmployeePayrollDBService {
 
     private PreparedStatement employeePayrollDataStatement;
     private static EmployeePayrollDBService employeePayrollDBService;
+    private PreparedStatement updateEmployeeSalary;
 
     private EmployeePayrollDBService() {
 
@@ -67,6 +68,20 @@ public class EmployeePayrollDBService {
         return 0;
     }
 
+    int updateEmployeeDataUsingPreparedStatement(String name, Double salary){
+        List<EmployeePayrollData> employeePayrollList = null;
+        if (this.updateEmployeeSalary == null)
+            this.prepareStatementForToUpdateSalary();
+        try {
+            updateEmployeeSalary.setString(2, name);
+            updateEmployeeSalary.setDouble(1, salary);
+            return updateEmployeeSalary.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
     public List<EmployeePayrollData> getEmployeePayrollData(String name) {
         List<EmployeePayrollData> employeePayrollList = null;
         if (this.employeePayrollDataStatement == null)
@@ -102,6 +117,16 @@ public class EmployeePayrollDBService {
             Connection connection = this.getConnection();
             String sql = "SELECT * FROM employee_payroll WHERE name = ?";
             employeePayrollDataStatement = connection.prepareStatement(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void prepareStatementForToUpdateSalary() {
+        try {
+            Connection connection = this.getConnection();
+            String sql = "update employee_payroll set salary = ? where name = ?";
+            updateEmployeeSalary = connection.prepareStatement(sql);
         } catch (SQLException e) {
             e.printStackTrace();
         }
