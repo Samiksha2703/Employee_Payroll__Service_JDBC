@@ -38,7 +38,7 @@ public class EmployeePayrollService {
             employeePayrollData.salary = salary;
     }
 
-    public void updateEmployeeSalaryWithPreparedStatement(String name, Double salary){
+    public void updateEmployeeSalaryWithPreparedStatement(String name, Double salary) throws EmployeePayrollException {
         int result = employeePayrollDBService.updateEmployeeDataUsingPreparedStatement(name, salary);
         if (result == 0) return;
         EmployeePayrollData employeePayrollData = this.getEmployeePayrollData(name);

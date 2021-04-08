@@ -68,7 +68,7 @@ public class EmployeePayrollDBService {
         return 0;
     }
 
-    int updateEmployeeDataUsingPreparedStatement(String name, Double salary){
+    int updateEmployeeDataUsingPreparedStatement(String name, Double salary) throws EmployeePayrollException {
         List<EmployeePayrollData> employeePayrollList = null;
         if (this.updateEmployeeSalary == null)
             this.prepareStatementForToUpdateSalary();
@@ -77,9 +77,8 @@ public class EmployeePayrollDBService {
             updateEmployeeSalary.setDouble(1, salary);
             return updateEmployeeSalary.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new EmployeePayrollException("Wrong given Name", EmployeePayrollException.ExceptionType.WRONG_NAME);
         }
-        return 0;
     }
 
     public List<EmployeePayrollData> getEmployeePayrollData(String name) {
