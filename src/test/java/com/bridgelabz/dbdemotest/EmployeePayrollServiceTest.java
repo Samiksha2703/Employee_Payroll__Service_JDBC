@@ -1,6 +1,7 @@
 package com.bridgelabz.dbdemotest;
 
 import com.bridgelabz.dbdemo.EmployeePayrollData;
+import com.bridgelabz.dbdemo.EmployeePayrollException;
 import com.bridgelabz.dbdemo.EmployeePayrollService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -32,7 +33,11 @@ public class EmployeePayrollServiceTest {
     public void givenNewSalaryForEmployee_WhenUpdated_ShouldSyncWithDB() {
         employeePayrollService = new EmployeePayrollService();
         employeePayrollList = employeePayrollService.readEmployeePayrollData(EmployeePayrollService.IOService.DB_IO);
-        employeePayrollService.updateEmployeeSalaryWithPreparedStatement("Terisa", 3000000.0);
+        try {
+            employeePayrollService.updateEmployeeSalaryWithPreparedStatement("Terisa", 3000000.0);
+        } catch (EmployeePayrollException e) {
+            e.printStackTrace();
+        }
         boolean result = employeePayrollService.checkEmployeePayrollInSyncWithDB("Terisa");
         Assertions.assertTrue(result);
     }
