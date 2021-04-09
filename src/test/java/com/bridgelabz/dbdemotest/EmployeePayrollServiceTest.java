@@ -3,10 +3,12 @@ package com.bridgelabz.dbdemotest;
 import com.bridgelabz.dbdemo.EmployeePayrollData;
 import com.bridgelabz.dbdemo.EmployeePayrollException;
 import com.bridgelabz.dbdemo.EmployeePayrollService;
+import org.junit.Before;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 public class EmployeePayrollServiceTest {
@@ -30,15 +32,16 @@ public class EmployeePayrollServiceTest {
     }
 
     @Test
-    public void givenNewSalaryForEmployee_WhenUpdated_ShouldSyncWithDB() {
+    public void givenNewSalaryForEmployee_WhenUpdated_ShouldSyncWithDB() throws EmployeePayrollException {
         employeePayrollService = new EmployeePayrollService();
         employeePayrollList = employeePayrollService.readEmployeePayrollData(EmployeePayrollService.IOService.DB_IO);
+        boolean result;
         try {
             employeePayrollService.updateEmployeeSalaryWithPreparedStatement("Terisa", 3000000.0);
+            result = employeePayrollService.checkEmployeePayrollInSyncWithDB("Terisa");
         } catch (EmployeePayrollException e) {
-            e.printStackTrace();
+            throw new EmployeePayrollException("Wrong given Name", EmployeePayrollException.ExceptionType.WRONG_NAME);
         }
-        boolean result = employeePayrollService.checkEmployeePayrollInSyncWithDB("Terisa");
         Assertions.assertTrue(result);
     }
 }
