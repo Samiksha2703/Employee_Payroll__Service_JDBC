@@ -1,6 +1,5 @@
 package com.bridgelabz.dbdemo;
 
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -49,5 +48,14 @@ public class EmployeePayrollService {
 
     private EmployeePayrollData getEmployeePayrollData(String name) {
         return this.employeePayrollList.stream().filter(employeePayrollDataItem -> employeePayrollDataItem.name.equals(name)).findFirst().orElse(null);
+    }
+
+    public List<EmployeePayrollData> getEmployeeSalary(String name, Double salary) {
+        List<EmployeePayrollData> employeePayrollData = employeePayrollDBService.getSalary(name, salary);
+        return employeePayrollData;
+    }
+
+    public List<EmployeePayrollData> readEmployeePayrollDataForDateRange(LocalDate startDate, LocalDate endDate) {
+        return employeePayrollDBService.getEmployeePayrollDataForDateRange(startDate, endDate);
     }
 }
