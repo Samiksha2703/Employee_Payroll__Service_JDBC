@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.bridgelabz.dbdemotest.EmployeePayrollServiceTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-04-09T10:41:46" hostname="LAPTOP-VA1S61KV" time="0.291">
+  <properties/>
+  <testcase name="givenNewSalaryForEmployee_WhenUpdated_ShouldSyncWithDB()" classname="com.bridgelabz.dbdemotest.EmployeePayrollServiceTest" time="0.291"/>
+  <system-out><![CDATA[Connecting to database:jdbc:mysql://localhost:3306/payroll_service1?useSSL=false
+Connection is successful!com.mysql.jdbc.JDBC4Connection@3d4e389a
+Connecting to database:jdbc:mysql://localhost:3306/payroll_service1?useSSL=false
+Connection is successful!com.mysql.jdbc.JDBC4Connection@619ca965
+Connecting to database:jdbc:mysql://localhost:3306/payroll_service1?useSSL=false
+Connection is successful!com.mysql.jdbc.JDBC4Connection@1b215d73
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
