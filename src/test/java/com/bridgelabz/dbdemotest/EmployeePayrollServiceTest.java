@@ -44,4 +44,22 @@ public class EmployeePayrollServiceTest {
         }
         Assertions.assertTrue(result);
     }
+
+    @Test
+    public void givenEmployeeName_WhenRetrieveSalary_ShouldMatch() {
+        employeePayrollService = new EmployeePayrollService();
+        employeePayrollList = employeePayrollService.readEmployeePayrollData(EmployeePayrollService.IOService.DB_IO);
+        List<EmployeePayrollData> employeePayrollData = employeePayrollService.getEmployeeSalary("Bill", 1000000.0);
+        Assertions.assertEquals(1000000.0, employeePayrollData.get(0).salary);
+    }
+
+    @Test
+    public void givenDateRange_WhenRetrievedEmployee_ShouldReturnEmpCount() throws EmployeePayrollException {
+        employeePayrollService = new EmployeePayrollService();
+        employeePayrollList = employeePayrollService.readEmployeePayrollData(EmployeePayrollService.IOService.DB_IO);
+        LocalDate startDate = LocalDate.of(2018, 01, 01);
+        LocalDate endDate = LocalDate.now();
+        List<EmployeePayrollData> employeePayrollData = employeePayrollService.readEmployeePayrollDataForDateRange(startDate, endDate);
+        Assertions.assertEquals(3, employeePayrollList.size());
+    }
 }
