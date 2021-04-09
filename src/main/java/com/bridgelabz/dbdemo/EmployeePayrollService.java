@@ -1,5 +1,7 @@
 package com.bridgelabz.dbdemo;
 
+import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 
 public class EmployeePayrollService {
@@ -26,7 +28,6 @@ public class EmployeePayrollService {
 
     public boolean checkEmployeePayrollInSyncWithDB(String name) {
         List<EmployeePayrollData> employeePayrollDataList = employeePayrollDBService.getEmployeePayrollData(name);
-        double salary = 3000000.0;
         return employeePayrollDataList.get(0).equals(getEmployeePayrollData(name));
     }
 

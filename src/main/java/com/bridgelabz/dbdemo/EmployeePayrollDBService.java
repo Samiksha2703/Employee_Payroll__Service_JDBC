@@ -7,8 +7,9 @@ import java.util.List;
 
 public class EmployeePayrollDBService {
 
-    private PreparedStatement employeePayrollDataStatement;
     private static EmployeePayrollDBService employeePayrollDBService;
+    private PreparedStatement employeePayrollDataStatement;
+    private PreparedStatement prepareStatement;
     private PreparedStatement updateEmployeeSalary;
 
     private EmployeePayrollDBService() {
@@ -68,10 +69,10 @@ public class EmployeePayrollDBService {
         return 0;
     }
 
-    int updateEmployeeDataUsingPreparedStatement(String name, Double salary) throws EmployeePayrollException {
-        List<EmployeePayrollData> employeePayrollList = null;
+    public int updateEmployeeDataUsingPreparedStatement(String name, Double salary) throws EmployeePayrollException {
+        String sql = "update employee_payroll set salary = ? where name = ?";
         if (this.updateEmployeeSalary == null)
-            this.prepareStatementForToUpdateSalary();
+            updateEmployeeSalary = this.prepareStatementForEmployeeData(sql);
         try {
             updateEmployeeSalary.setString(2, name);
             updateEmployeeSalary.setDouble(1, salary);
@@ -83,8 +84,9 @@ public class EmployeePayrollDBService {
 
     public List<EmployeePayrollData> getEmployeePayrollData(String name) {
         List<EmployeePayrollData> employeePayrollList = null;
+        String sql = "SELECT * FROM employee_payroll WHERE name = ?";
         if (this.employeePayrollDataStatement == null)
-            this.prepareStatementForEmployeeData();
+            employeePayrollDataStatement = this.prepareStatementForEmployeeData(sql);
         try {
             employeePayrollDataStatement.setString(1, name);
             ResultSet resultSet = employeePayrollDataStatement.executeQuery();
@@ -111,23 +113,14 @@ public class EmployeePayrollDBService {
         return employeePayrollList;
     }
 
-    private void prepareStatementForEmployeeData() {
+    private PreparedStatement prepareStatementForEmployeeData(String sql) {
         try {
             Connection connection = this.getConnection();
-            String sql = "SELECT * FROM employee_payroll WHERE name = ?";
-            employeePayrollDataStatement = connection.prepareStatement(sql);
+            prepareStatement = connection.prepareStatement(sql);
+            return prepareStatement;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    private void prepareStatementForToUpdateSalary() {
-        try {
-            Connection connection = this.getConnection();
-            String sql = "update employee_payroll set salary = ? where name = ?";
-            updateEmployeeSalary = connection.prepareStatement(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        return null;
     }
 }
