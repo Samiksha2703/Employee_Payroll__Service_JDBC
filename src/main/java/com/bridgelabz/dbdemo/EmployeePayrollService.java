@@ -63,4 +63,9 @@ public class EmployeePayrollService {
     public Map<String, Double> averageSalaryByGender() {
         return employeePayrollDBService.getAverageSalaryByGender();
     }
+
+    //UC-7
+    public void addEmployeeToPayroll(String name, double salary, LocalDate start, String gender) {
+        employeePayrollList.add(employeePayrollDBService.addEmployeePayroll(name, salary, start, gender));
+    }
 }
