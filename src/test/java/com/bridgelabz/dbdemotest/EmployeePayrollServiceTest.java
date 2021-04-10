@@ -74,7 +74,7 @@ public class EmployeePayrollServiceTest {
 
     //UC-7
     @Test
-    public void givenNewEmployee_WhenAdded_ShouldSyncWithDB(){
+    public void givenNewEmployee_WhenAdded_ShouldSyncWithDB() {
         EmployeePayrollService employeePayrollService = new EmployeePayrollService();
         employeePayrollService.readEmployeePayrollData(EmployeePayrollService.IOService.DB_IO);
         employeePayrollService.addEmployeeToPayroll("Mark", 5000000.0, LocalDate.now(), "M");
