@@ -28,6 +28,11 @@ public class EmployeePayrollData {
     }
 
     @Override
+    public int hashCode() {
+        return Objects.hash(name, gender, salary, startDate);
+    }
+
+    @Override
     public String toString() {
         return "id=" + id +
                 ", salary=" + salary +
