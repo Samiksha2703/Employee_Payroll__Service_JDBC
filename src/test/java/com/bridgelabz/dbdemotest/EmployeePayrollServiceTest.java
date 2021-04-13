@@ -71,16 +71,6 @@ public class EmployeePayrollServiceTest {
         Assertions.assertTrue(averageSalaryByGender.get("M").equals(2400000.0) && averageSalaryByGender.get("F").equals(3000000.0));
     }
 
-//    UC-7
-//    @Test
-//    public void givenNewEmployee_WhenAdded_ShouldSyncWithDB() {
-//        EmployeePayrollService employeePayrollService = new EmployeePayrollService();
-//        employeePayrollService.readEmployeePayrollData(EmployeePayrollService.IOService.DB_IO);
-//        employeePayrollService.addEmployeeToPayroll("Mark", 5000000.0, LocalDate.now(), "M");
-//        boolean result = employeePayrollService.checkEmployeePayrollInSyncWithDB("Mark");
-//        Assertions.assertTrue(result);
-//    }
-
     @Test
     public void givenNewEmployee_WhenAddedUsingER_ShouldSyncWithDB(){
         EmployeePayrollService employeePayrollService = new EmployeePayrollService();
