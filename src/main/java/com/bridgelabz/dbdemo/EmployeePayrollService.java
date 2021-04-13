@@ -65,12 +65,28 @@ public class EmployeePayrollService {
         return employeePayrollDBService.getAverageSalaryByGender();
     }
 
-    public void addEmployeeAndPayrollData(String name, Double salary, LocalDate startDate, String gender,ArrayList<String> department){
+    public void addEmployeeAndPayrollData(String name, Double salary, LocalDate startDate, String gender, ArrayList<String> department) {
         employeePayrollList.add(
                 employeePayrollDBService.addEmployeePayroll(name, salary, startDate, gender, department));
     }
 
-    public void removeEmployee(int empId){
+    public void removeEmployee(int empId) {
         employeePayrollDBService.removeEmployeeFromDB(empId);
+    }
+
+
+    public void addEmployeeAndPayroll(List<EmployeePayrollData> employeePayrollDataList) {
+        employeePayrollDataList.forEach(employeePayrollData -> {
+            this.addEmployeeAndPayrollData(employeePayrollData.name, employeePayrollData.salary,
+                    employeePayrollData.startDate, employeePayrollData.gender);
+        });
+    }
+
+    private void addEmployeeAndPayrollData(String name, double salary, LocalDate startDate, String gender) {
+        employeePayrollList.add(employeePayrollDBService.addEmployeePayrollIntoDB(name, salary, startDate, gender));
+    }
+
+    public int countEntries() {
+        return employeePayrollList.size();
     }
 }
