@@ -61,6 +61,7 @@ public class EmployeePayrollService {
         return employeePayrollDBService.getEmployeePayrollDataForDateRange(startDate, endDate);
     }
 
+    //UC11
     public Map<String, Double> averageSalaryByGender() {
         return employeePayrollDBService.getAverageSalaryByGender();
     }
