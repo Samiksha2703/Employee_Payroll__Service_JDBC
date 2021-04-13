@@ -82,4 +82,12 @@ public class EmployeePayrollServiceTest {
         boolean isSynced = employeePayrollService.checkEmployeePayrollInSyncWithDB("Mark");
         Assertions.assertTrue(isSynced);
     }
+
+    @Test
+    public void givenEmployeeId_WhenDeletedUsing_ShouldSyncWithDB() {
+        EmployeePayrollService employeePayrollService = new EmployeePayrollService();
+        employeePayrollList = employeePayrollService.readEmployeePayrollData(EmployeePayrollService.IOService.DB_IO);
+        employeePayrollService.removeEmployee(3);
+        Assertions.assertEquals(7, employeePayrollList.size());
+    }
 }
