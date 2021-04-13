@@ -268,4 +268,14 @@ public class EmployeePayrollDBService {
         }
         return employeePayrollData;
     }
+
+    public void removeEmployeeFromDB(int empId) {
+            String sql = String.format("UPDATE employee_payroll SET is_active = false WHERE id= '%s'", empId);
+            try (Connection connection = getConnection()) {
+                PreparedStatement preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+    }
 }
