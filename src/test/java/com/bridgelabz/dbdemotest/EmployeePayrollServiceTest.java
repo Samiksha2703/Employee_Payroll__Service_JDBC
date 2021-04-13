@@ -71,6 +71,7 @@ public class EmployeePayrollServiceTest {
         Assertions.assertTrue(averageSalaryByGender.get("M").equals(2400000.0) && averageSalaryByGender.get("F").equals(3000000.0));
     }
 
+    //UC11
     @Test
     public void givenNewEmployee_WhenAddedUsingER_ShouldSyncWithDB(){
         EmployeePayrollService employeePayrollService = new EmployeePayrollService();
