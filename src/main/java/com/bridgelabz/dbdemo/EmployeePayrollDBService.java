@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public class EmployeePayrollDBService {
-
+    private int connectionCounter = 0;
     private static EmployeePayrollDBService employeePayrollDBService;
     private PreparedStatement employeePayrollDataStatement;
     private PreparedStatement prepareStatement;
@@ -26,14 +26,15 @@ public class EmployeePayrollDBService {
         return employeePayrollDBService;
     }
 
-    private Connection getConnection() throws SQLException {
+    private synchronized Connection getConnection() throws SQLException {
+        connectionCounter++;
         String jdbcURL = "jdbc:mysql://localhost:3306/payroll_service1?useSSL=false";
         String userName = "root";
         String password = "Welcome@01";
         Connection connection;
-        System.out.println("Connecting to database:" + jdbcURL);
+        System.out.println("Processing Thread : " +Thread.currentThread().getName() + "Connecting to database with id :"+connectionCounter);
         connection = DriverManager.getConnection(jdbcURL, userName, password);
-        System.out.println("Connection is successful!" + connection);
+        System.out.println("Processing Thread : "+Thread.currentThread().getName() + " Id:" +connectionCounter+"Connection is successful!" + connection);
         return connection;
     }
 
@@ -312,7 +313,7 @@ public class EmployeePayrollDBService {
             String sql = String.format("INSERT INTO payroll_details" +
                     "(employee_id, basic_pay, deduction, taxable_pay, taxa, net_pay) VALUES" +
                     "(%s, %s, %s, %s, %s, %s)", employeeID, salary, deduction, taxablePay, tax, netPay);
-            int rowAffected = statement.executeUpdate(sql, statement.RETURN_GENERATED_KEYS);
+            int rowAffected = statement.executeUpdate(sql);
             if (rowAffected == 1) {
                 employeePayrollData = new EmployeePayrollData(employeeID, name, salary, startDate);
             }
@@ -320,6 +321,7 @@ public class EmployeePayrollDBService {
             exception.printStackTrace();
             try {
                 connection.rollback();
+                return employeePayrollData;
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
@@ -336,7 +338,6 @@ public class EmployeePayrollDBService {
                     exce.printStackTrace();
                 }
             }
-
         }
         return employeePayrollData;
     }

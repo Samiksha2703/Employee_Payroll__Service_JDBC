@@ -88,7 +88,7 @@ public class EmployeePayrollService {
     }
 
     public void addEmployeeAndPayrollDataWithThread(List<EmployeePayrollData> employeePayrollDataList) {
-        Map<Integer, Boolean> employeeAdditionStatus = new HashMap<>();
+        Map<Integer, Boolean> employeeAdditionStatus = new HashMap<Integer, Boolean>();
         employeePayrollDataList.forEach(employeePayrollData -> {
             Runnable task = () -> {
                 employeeAdditionStatus.put(employeePayrollData.hashCode(), false);
@@ -103,13 +103,12 @@ public class EmployeePayrollService {
         while (employeeAdditionStatus.containsValue(false)) {
             try {
                 Thread.sleep(10);
-            } catch (InterruptedException e) {
-            }
+            } catch (InterruptedException e) { }
         }
-        System.out.println(employeePayrollDataList);
+        System.out.println(this.employeePayrollList);
     }
 
     public int countEntries() {
-        return employeePayrollList.size();
+        return this.employeePayrollList.size();
     }
 }
