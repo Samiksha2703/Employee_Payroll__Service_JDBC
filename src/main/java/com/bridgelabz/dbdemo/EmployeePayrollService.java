@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.SynchronousQueue;
 
 public class EmployeePayrollService {
 
@@ -12,7 +13,7 @@ public class EmployeePayrollService {
 
     private List<EmployeePayrollData> employeePayrollList;
     private final EmployeePayrollDBService employeePayrollDBService;
-
+    public static int empCount = 0;
     public EmployeePayrollService() {
         employeePayrollDBService = EmployeePayrollDBService.getInstance();
     }
@@ -103,12 +104,14 @@ public class EmployeePayrollService {
         while (employeeAdditionStatus.containsValue(false)) {
             try {
                 Thread.sleep(10);
-            } catch (InterruptedException e) { }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         System.out.println(this.employeePayrollList);
     }
 
-    public int countEntries() {
-        return this.employeePayrollList.size();
+    public long countEntries() {
+        return employeePayrollList.size();
     }
 }

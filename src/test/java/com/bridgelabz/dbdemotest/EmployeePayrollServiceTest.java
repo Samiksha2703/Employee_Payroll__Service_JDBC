@@ -98,11 +98,7 @@ public class EmployeePayrollServiceTest {
     public void given6Employees_WhenAdded_Should_ShouldMatchEmpEntries() {
         EmployeePayrollData[] arrayOfEmps = {
                 new EmployeePayrollData(0, "Jeff Bezos", "M", 100000.0, LocalDate.now()),
-                new EmployeePayrollData(0, "Bill Gates", "M", 200000.0, LocalDate.now()),
-                new EmployeePayrollData(0, "Mark Zuckerberg", "M", 300000.0, LocalDate.now()),
-                new EmployeePayrollData(0, "Sunder", "M", 600000.0, LocalDate.now()),
-                new EmployeePayrollData(0, "Mukesh", "M", 1000000.0, LocalDate.now()),
-                new EmployeePayrollData(0, "Anil", "M", 200000.0, LocalDate.now()),
+                new EmployeePayrollData(0, "Bill Gates", "M", 200000.0, LocalDate.now())
         };
         EmployeePayrollService employeePayrollService = new EmployeePayrollService();
         employeePayrollService.readEmployeePayrollData(EmployeePayrollService.IOService.DB_IO);
@@ -114,6 +110,6 @@ public class EmployeePayrollServiceTest {
         employeePayrollService.addEmployeeAndPayrollDataWithThread(Arrays.asList(arrayOfEmps));
         Instant threadEnd = Instant.now();
         System.out.println("Duration with thread: " + Duration.between(threadStart, threadEnd));
-        Assertions.assertEquals(13, employeePayrollService.countEntries());
+        Assertions.assertEquals(5, employeePayrollService.countEntries());
     }
 }

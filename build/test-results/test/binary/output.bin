@@ -1,6 +1,17 @@
-RConnecting to database:jdbc:mysql://localhost:3306/payroll_service1?useSSL=false
-BConnection is successful!com.mysql.jdbc.JDBC4Connection@3d4e389a
-RConnecting to database:jdbc:mysql://localhost:3306/payroll_service1?useSSL=false
-BConnection is successful!com.mysql.jdbc.JDBC4Connection@619ca965
-RConnecting to database:jdbc:mysql://localhost:3306/payroll_service1?useSSL=false
-BConnection is successful!com.mysql.jdbc.JDBC4Connection@1b215d73
+BProcessing Thread : Test workerConnecting to database with id :1
+fProcessing Thread : Test worker Id:1Connection is successful!com.mysql.jdbc.JDBC4Connection@69c72dc0
+BProcessing Thread : Test workerConnecting to database with id :2
+eProcessing Thread : Test worker Id:2Connection is successful!com.mysql.jdbc.JDBC4Connection@be7c750
+BProcessing Thread : Test workerConnecting to database with id :3
+fProcessing Thread : Test worker Id:3Connection is successful!com.mysql.jdbc.JDBC4Connection@3955a451
+#Duration without Thread: PT0.049S
+"Employee Being Added: Bill Gates
+"Employee Being Added: Jeff Bezos
+AProcessing Thread : Bill GatesConnecting to database with id :4
+Ç[{id=42, salary=200000.0, name='Mark', startDate=2021-04-13}, {id=415, salary=200000.0, name='Jeff Bezos', startDate=2021-04-14}, {id=416, salary=200000.0, name='Bill Gates', startDate=2021-04-14}]
+Duration with thread: PT0S
+eProcessing Thread : Bill Gates Id:4Connection is successful!com.mysql.jdbc.JDBC4Connection@60451e80
+AProcessing Thread : Jeff BezosConnecting to database with id :5
+Employee Added: Bill Gates
+dProcessing Thread : Jeff Bezos Id:5Connection is successful!com.mysql.jdbc.JDBC4Connection@913488d
+Employee Added: Jeff Bezos
