@@ -5,22 +5,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.SynchronousQueue;
 
 public class EmployeePayrollService {
 
-    public enum IOService {DB_IO}
+    public enum IOService {DB_IO, REST_IO}
 
     private List<EmployeePayrollData> employeePayrollList;
     private final EmployeePayrollDBService employeePayrollDBService;
-    public static int empCount = 0;
+
     public EmployeePayrollService() {
         employeePayrollDBService = EmployeePayrollDBService.getInstance();
     }
 
     public EmployeePayrollService(List<EmployeePayrollData> employeePayrollList) {
         this();
-        this.employeePayrollList = employeePayrollList;
+        this.employeePayrollList = new ArrayList<>(employeePayrollList);
     }
 
     public List<EmployeePayrollData> readEmployeePayrollData(IOService ioService) {
@@ -99,11 +98,12 @@ public class EmployeePayrollService {
                 System.out.println("Employee Added: " + Thread.currentThread().getName());
             };
             Thread thread = new Thread(task, employeePayrollData.name);
+            thread.setPriority(10);
             thread.start();
         });
         while (employeeAdditionStatus.containsValue(false)) {
             try {
-                Thread.sleep(10);
+                Thread.sleep(500000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -111,7 +111,9 @@ public class EmployeePayrollService {
         System.out.println(this.employeePayrollList);
     }
 
-    public long countEntries() {
-        return employeePayrollList.size();
+    public long countEntries(IOService ioService) {
+        if (ioService.equals(IOService.DB_IO) || ioService.equals(IOService.REST_IO))
+            return employeePayrollList.size();
+        return 0;
     }
 }
