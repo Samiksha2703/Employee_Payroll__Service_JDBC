@@ -124,4 +124,12 @@ public class EmployeePayrollService {
             this.addEmployeeAndPayrollData(employeePayrollData.name, employeePayrollData.salary, employeePayrollData.startDate, employeePayrollData.gender);
         else employeePayrollList.add(employeePayrollData);
     }
+
+    public void deleteEmployeePayroll(String name, IOService ioService) {
+        if (ioService.equals(IOService.REST_IO)) {
+            EmployeePayrollData employeePayrollData = this.getEmployeePayrollData(name);
+            employeePayrollList.remove(employeePayrollData);
+        }
+    }
+
 }
