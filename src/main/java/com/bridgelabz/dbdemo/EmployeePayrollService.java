@@ -83,6 +83,13 @@ public class EmployeePayrollService {
         });
     }
 
+
+    public void addEmployeeAndPayroll(EmployeePayrollData employeePayrollData, IOService ioService) {
+        if (ioService.equals(IOService.DB_IO))
+            this.addEmployeeAndPayrollData(employeePayrollData.name, employeePayrollData.salary, employeePayrollData.startDate, employeePayrollData.gender);
+        else employeePayrollList.add(employeePayrollData);
+    }
+
     private void addEmployeeAndPayrollData(String name, double salary, LocalDate startDate, String gender) {
         employeePayrollList.add(employeePayrollDBService.addEmployeePayrollIntoDB(name, salary, startDate, gender));
     }
