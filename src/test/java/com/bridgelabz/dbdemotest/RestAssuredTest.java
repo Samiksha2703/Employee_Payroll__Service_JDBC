@@ -31,9 +31,9 @@ public class RestAssuredTest {
 
 
     private Response addEmployeeToJsonServer(EmployeePayrollData employeePayrollData) {
-    String empJson = new Gson().toJson(employeePayrollData);
+        String empJson = new Gson().toJson(employeePayrollData);
         RequestSpecification request = RestAssured.given();
-        request.header("Content_type","application/json");
+        request.header("Content_type", "application/json");
         request.body(empJson);
         return request.post("/employee_payroll");
     }
@@ -53,7 +53,7 @@ public class RestAssuredTest {
         EmployeePayrollService employeePayrollService;
         employeePayrollService = new EmployeePayrollService(Arrays.asList(arrayOfEmployees));
         EmployeePayrollData employeePayrollData = new EmployeePayrollData(3, "Mark Zuckerberg", "M",
-                                                                            300000.0, LocalDate.now());
+                300000.0, LocalDate.now());
         Response response = addEmployeeToJsonServer(employeePayrollData);
         int statusCode = response.getStatusCode();
         Assertions.assertEquals(201, statusCode);
@@ -62,5 +62,27 @@ public class RestAssuredTest {
         employeePayrollService.addEmployeeAndPayroll(employeePayrollData, EmployeePayrollService.IOService.REST_IO);
         long entries = employeePayrollService.countEntries(EmployeePayrollService.IOService.REST_IO);
         Assertions.assertEquals(3, entries);
+    }
+
+    @Test
+    public void givenListOfNewEmployee_WhenAdded_ShouldMatch201ResponseAndCount() {
+        EmployeePayrollData[] arrayOfEmployees = getEmployeeList();
+        EmployeePayrollService employeePayrollService;
+        employeePayrollService = new EmployeePayrollService(Arrays.asList(arrayOfEmployees));
+        EmployeePayrollData[] arrayOfEmployeePayroll = {
+                new EmployeePayrollData(0, "Sundar", "M", 00000.0, LocalDate.now()),
+                new EmployeePayrollData(0, "Mukesh", "M", 1000000.0, LocalDate.now()),
+                new EmployeePayrollData(0, "Anil", "M", 200000.0, LocalDate.now())
+        };
+        for (EmployeePayrollData employeePayrollData : arrayOfEmployeePayroll) {
+            Response response = addEmployeeToJsonServer(employeePayrollData);
+            int statusCode = response.getStatusCode();
+            Assertions.assertEquals(201, statusCode);
+
+            employeePayrollData = new Gson().fromJson(response.asString(), EmployeePayrollData.class);
+            employeePayrollService.addEmployeeAndPayroll(employeePayrollData, EmployeePayrollService.IOService.REST_IO);
+        }
+        long entries = employeePayrollService.countEntries(EmployeePayrollService.IOService.REST_IO);
+        Assertions.assertEquals(6, entries);
     }
 }
