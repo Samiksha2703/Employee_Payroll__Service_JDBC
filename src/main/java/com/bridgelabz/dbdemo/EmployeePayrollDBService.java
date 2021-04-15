@@ -32,9 +32,9 @@ public class EmployeePayrollDBService {
         String userName = "root";
         String password = "Welcome@01";
         Connection connection;
-        System.out.println("Processing Thread : " +Thread.currentThread().getName() + "Connecting to database with id :"+connectionCounter);
+        System.out.println("Processing Thread : " + Thread.currentThread().getName() + "Connecting to database with id :" + connectionCounter);
         connection = DriverManager.getConnection(jdbcURL, userName, password);
-        System.out.println("Processing Thread : "+Thread.currentThread().getName() + " Id:" +connectionCounter+"Connection is successful!" + connection);
+        System.out.println("Processing Thread : " + Thread.currentThread().getName() + " Id:" + connectionCounter + "Connection is successful!" + connection);
         return connection;
     }
 
