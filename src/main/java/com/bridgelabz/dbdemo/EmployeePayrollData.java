@@ -4,9 +4,9 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 public class EmployeePayrollData {
-    public String gender;
+    public String gender = "";
     public int id;
-    public static double salary;
+    public static Double salary;
     public String name;
     public LocalDate startDate;
 
@@ -23,7 +23,10 @@ public class EmployeePayrollData {
     }
 
     public EmployeePayrollData(Integer id, String name, String gender, Double salary, LocalDate startDate) {
-        this(id, name, salary, startDate);
+        this.id = id;
+        this.name = name;
+        this.salary = salary;
+        this.startDate = startDate;
         this.gender = gender;
     }
 

@@ -33,9 +33,11 @@ public class EmployeePayrollService {
         return employeePayrollDataList.get(0).equals(getEmployeePayrollData(name));
     }
 
-    public void updateEmployeeSalary(String name, Double salary) {
-        int result = employeePayrollDBService.updateEmployeeData(name, salary);
-        if (result == 0) return;
+    public void updateEmployeeSalary(String name, Double salary, IOService ioService) {
+        if (ioService.equals(IOService.DB_IO)) {
+            int result = employeePayrollDBService.updateEmployeeData(name, salary);
+            if (result == 0) return;
+        }
         EmployeePayrollData employeePayrollData = this.getEmployeePayrollData(name);
         if (employeePayrollData != null)
             employeePayrollData.salary = salary;
@@ -49,7 +51,7 @@ public class EmployeePayrollService {
             employeePayrollData.salary = salary;
     }
 
-    private EmployeePayrollData getEmployeePayrollData(String name) {
+    public EmployeePayrollData getEmployeePayrollData(String name) {
         return this.employeePayrollList.stream().filter(employeePayrollDataItem -> employeePayrollDataItem.name.equals(name)).findFirst().orElse(null);
     }
 
@@ -81,13 +83,6 @@ public class EmployeePayrollService {
             this.addEmployeeAndPayrollData(employeePayrollData.name, employeePayrollData.salary,
                     employeePayrollData.startDate, employeePayrollData.gender);
         });
-    }
-
-
-    public void addEmployeeAndPayroll(EmployeePayrollData employeePayrollData, IOService ioService) {
-        if (ioService.equals(IOService.DB_IO))
-            this.addEmployeeAndPayrollData(employeePayrollData.name, employeePayrollData.salary, employeePayrollData.startDate, employeePayrollData.gender);
-        else employeePayrollList.add(employeePayrollData);
     }
 
     private void addEmployeeAndPayrollData(String name, double salary, LocalDate startDate, String gender) {
@@ -122,5 +117,11 @@ public class EmployeePayrollService {
         if (ioService.equals(IOService.DB_IO) || ioService.equals(IOService.REST_IO))
             return employeePayrollList.size();
         return 0;
+    }
+
+    public void addEmployeeAndPayroll(EmployeePayrollData employeePayrollData, IOService ioService) {
+        if (ioService.equals(IOService.DB_IO))
+            this.addEmployeeAndPayrollData(employeePayrollData.name, employeePayrollData.salary, employeePayrollData.startDate, employeePayrollData.gender);
+        else employeePayrollList.add(employeePayrollData);
     }
 }
