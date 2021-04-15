@@ -23,7 +23,6 @@ public class RestAssuredTest {
 
     public EmployeePayrollData[] getEmployeeList() {
         Response response = RestAssured.get("/employee_payroll");
-        System.out.println(response);
         System.out.println("Employee Payroll Entries in JSONSever:\n" + response.asString());
         EmployeePayrollData[] arrayOfEmployees = new Gson().fromJson(response.asString(), EmployeePayrollData[].class);
         return arrayOfEmployees;
@@ -33,7 +32,7 @@ public class RestAssuredTest {
     private Response addEmployeeToJsonServer(EmployeePayrollData employeePayrollData) {
         String empJson = new Gson().toJson(employeePayrollData);
         RequestSpecification request = RestAssured.given();
-        request.header("Content_type", "application/json");
+        request.header("Content-Type", "application/json");
         request.body(empJson);
         return request.post("/employee_payroll");
     }
@@ -52,8 +51,9 @@ public class RestAssuredTest {
         EmployeePayrollData[] arrayOfEmployees = getEmployeeList();
         EmployeePayrollService employeePayrollService;
         employeePayrollService = new EmployeePayrollService(Arrays.asList(arrayOfEmployees));
-        EmployeePayrollData employeePayrollData = new EmployeePayrollData(3, "Mark Zuckerberg", "M",
+        EmployeePayrollData employeePayrollData = new EmployeePayrollData(0, "Mark Zuckerberg", "M",
                 300000.0, LocalDate.now());
+        System.out.println("Data :" +employeePayrollData);
         Response response = addEmployeeToJsonServer(employeePayrollData);
         int statusCode = response.getStatusCode();
         Assertions.assertEquals(201, statusCode);
@@ -70,7 +70,7 @@ public class RestAssuredTest {
         EmployeePayrollService employeePayrollService;
         employeePayrollService = new EmployeePayrollService(Arrays.asList(arrayOfEmployees));
         EmployeePayrollData[] arrayOfEmployeePayroll = {
-                new EmployeePayrollData(0, "Sundar", "M", 00000.0, LocalDate.now()),
+                new EmployeePayrollData(0, "Sundar", "M", 500000.0, LocalDate.now()),
                 new EmployeePayrollData(0, "Mukesh", "M", 1000000.0, LocalDate.now()),
                 new EmployeePayrollData(0, "Anil", "M", 200000.0, LocalDate.now())
         };
@@ -92,12 +92,13 @@ public class RestAssuredTest {
         EmployeePayrollService employeePayrollService;
         employeePayrollService = new EmployeePayrollService(Arrays.asList(arrayOfEmployees));
         employeePayrollService.updateEmployeeSalary("Bill Gates", 3000000.00, EmployeePayrollService.IOService.REST_IO);
-        EmployeePayrollData employeePayrollData = employeePayrollService.getEmployeePayrollData("Bill Gates");
+        EmployeePayrollData employeePayrollData = employeePayrollService.getEmployeePayrollData("Jeff Bezos");
+        System.out.println("data : "+employeePayrollData);
         String empJson = new Gson().toJson(employeePayrollData);
         RequestSpecification request = RestAssured.given();
         request.header("Content-Type", "application/json");
         request.body(empJson);
-        Response response = request.put("/employee_payroll/" + employeePayrollData.id);
+        Response response = request.put("/employee_payroll/"+employeePayrollData.id);
         int statusCode = response.getStatusCode();
         Assertions.assertEquals(200, statusCode);
     }
