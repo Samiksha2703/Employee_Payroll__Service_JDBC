@@ -102,4 +102,23 @@ public class RestAssuredTest {
         int statusCode = response.getStatusCode();
         Assertions.assertEquals(200, statusCode);
     }
+
+
+    @Test
+    public void givenEmployeeToDelete_WhenDeleted_ShouldMatch200ResponseAndCount() {
+        EmployeePayrollData[] arrayOfEmployees = getEmployeeList();
+        EmployeePayrollService employeePayrollService;
+        employeePayrollService = new EmployeePayrollService(Arrays.asList(arrayOfEmployees));
+
+        EmployeePayrollData employeePayrollData = employeePayrollService.getEmployeePayrollData("Anil");
+        RequestSpecification request = RestAssured.given();
+        request.header("Content-Type", "application/json");
+        Response response = request.delete("/employee_payroll/"+employeePayrollData.id);
+        int statusCode = response.getStatusCode();
+        Assertions.assertEquals(200, statusCode);
+
+        employeePayrollService.deleteEmployeePayroll(employeePayrollData.name, EmployeePayrollService.IOService.REST_IO);
+        long entries = employeePayrollService.countEntries(EmployeePayrollService.IOService.REST_IO);
+        Assertions.assertEquals(5, entries);
+    }
 }
